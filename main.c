@@ -20,7 +20,7 @@
 void arena(SDL_Renderer *renderer, SDL_FRect *rect) {
   setColor(renderer, CIRCLE_COLOR);
   SDL_RenderRect(renderer, rect);
-} 
+}
 
 int main() {
   SDL_Event event;
@@ -42,8 +42,11 @@ int main() {
     printf("Error on creating renderer: %s", SDL_GetError());
   }
 
-  struct Vector rectPos  = {(float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2};
   struct Vector circlePos = {(float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2};
+  BouncingObject bouncingObject = {
+    { (float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2, 10, 10},
+    0xFF30FF30,
+  };
 
   while(!quit) {
     SDL_PumpEvents();
@@ -55,11 +58,11 @@ int main() {
     setColor(renderer, 0xFFFFFFFF );
     SDL_RenderClear(renderer);
 
-    SDL_FRect rect = { (float)(SCREEN_WIDTH - ARENA_WIDTH) / 2, (float) (SCREEN_HEIGHT - ARENA_HEIGHT) / 2, ARENA_WIDTH, ARENA_HEIGHT};
-    arena(renderer, &rect);
+    SDL_FRect arenaRect = { (float)(SCREEN_WIDTH - ARENA_WIDTH) / 2, (float) (SCREEN_HEIGHT - ARENA_HEIGHT) / 2, ARENA_WIDTH, ARENA_HEIGHT};
+    arena(renderer, &arenaRect);
     /*renderCircle(renderer, circlePos, 200, 0xFF3030FF);*/
-    update(&rectPos, rect);
-    createRect(renderer, &rectPos, 0xFF30FF30);
+    update(&bouncingObject.rect, arenaRect);
+    createRect(renderer, bouncingObject);
     SDL_RenderPresent(renderer);
     SDL_Delay(1000/FPS);
   }
