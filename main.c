@@ -13,11 +13,14 @@
 #include <stdio.h>
 #include "functions.h"
 
-
-
 #define FPS 60
-#define BALL_COLOR 0xFF30FF30;
-#define CIRCLE_COLOR 0xFF3030FF;
+#define BALL_COLOR 0xFF30FF30
+#define CIRCLE_COLOR 0xFF3030FF
+
+void arena(SDL_Renderer *renderer, SDL_FRect *rect) {
+  setColor(renderer, CIRCLE_COLOR);
+  SDL_RenderRect(renderer, rect);
+} 
 
 int main() {
   SDL_Event event;
@@ -48,16 +51,14 @@ int main() {
       if(event.key.scancode == 20) {
         quit = true;
       }
-      if(event.key.scancode == SDL_SCANCODE_RIGHT) {
-        rectPos.x = rectPos.x + 1;
-      } else if(event.key.scancode == SDL_SCANCODE_LEFT) {
-        rectPos.x = rectPos.x - 1;
-      }
     }
     setColor(renderer, 0xFFFFFFFF );
     SDL_RenderClear(renderer);
-    renderCircle(renderer, circlePos, 200, 0xFF3030FF);
-    update(&rectPos, circlePos);
+
+    SDL_FRect rect = { (float)(SCREEN_WIDTH - ARENA_WIDTH) / 2, (float) (SCREEN_HEIGHT - ARENA_HEIGHT) / 2, ARENA_WIDTH, ARENA_HEIGHT};
+    arena(renderer, &rect);
+    /*renderCircle(renderer, circlePos, 200, 0xFF3030FF);*/
+    update(&rectPos, rect);
     createRect(renderer, &rectPos, 0xFF30FF30);
     SDL_RenderPresent(renderer);
     SDL_Delay(1000/FPS);

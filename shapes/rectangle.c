@@ -1,7 +1,6 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
-#include <math.h>
 #include "../functions.h"
 
 #define FPS 60
@@ -24,31 +23,19 @@ double square(double numb) {
   return numb * numb;
 }
 
-double checkIfInsideCircle(struct Vector pos, struct Vector circlePos ) {
-  double distX = square((pos.x - circlePos.x));
-  double distY = square((pos.y - circlePos.y));
-  double dist = distX + distY;
-  double distance = sqrt(dist);
-  if(distance > 200 ) {
-    return false;
-  }
-  return true;
-}
 
-void update(struct Vector *pos, struct Vector circlePos ) {
-  if(!checkIfInsideCircle(*pos, circlePos)) {
-    /*double distX = square((pos -> x - circlePos.x));*/
-    /*double distY = square((pos -> y - circlePos.y));*/
-    /*double theta = SDL_atan2(distY, distX);*/
-    /*pos -> x = 200 + cos(theta);*/
-    /*pos -> y = 200 + sin(theta);*/
-    dx *= -1;
-    /*dy *= -1;*/
-  }
+void update(struct Vector *pos, SDL_FRect rect ) {
   int nx = pos -> x + dx * SPEED * DELTA;
-  /*int ny = pos -> y + dy * SPEED * DELTA;*/
+  int ny = pos -> y + dy * SPEED * DELTA;
+  if(nx > rect.x + rect.w || (nx - RECT_WIDTH) < rect.x) {
+    dx *= -1;
+  }
+  if(ny > rect.y + rect.h || (ny - RECT_HEIGHT) < rect.y) {
+    dy *= -1;
+  }
+
   pos -> x = nx;
-  /*pos -> y = ny;*/
+  pos -> y = ny;
 }
 
 bool createRect(SDL_Renderer *renderer, struct Vector *pos, int color) {
