@@ -36,7 +36,7 @@ else if p < 0
 */
 
 bool drawPoint(SDL_Renderer *renderer, int x, int y, int color) {
-  setColor(renderer, color);
+  SDL_SetRenderDrawColor(renderer, 45, 57, 84, 255 );
   bool renderPoint = SDL_RenderPoint(renderer, x, y);
   return true;
 }

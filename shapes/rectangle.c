@@ -2,7 +2,6 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 #include "../functions.h"
-#include <math.h>
 #include <stdio.h>
 
 #define FPS 60
@@ -10,14 +9,6 @@
 #define DELTA 1.0
 int dx = 1;
 int dy = 1;
-
-void setColor(SDL_Renderer *renderer, int color) {
-  int r = trunc((color >> (0*8)) & 0xFF);  // Extract the RR byte
-  int g = trunc((color >> (1*8)) & 0xFF);   // Extract the GG byte
-  int b = trunc((color >> (2*8)) & 0xFF);   // Extract the GG byte
-  int a = trunc((color >> (3*8)) & 0xFF);   // Extract the GG byte
-  SDL_SetRenderDrawColor(renderer, r, g, b, 255 );
-}
 
 double square(double numb) {
   return numb * numb;
