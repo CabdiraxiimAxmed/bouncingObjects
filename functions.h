@@ -3,7 +3,7 @@
 
 #define SCREEN_WIDTH   600
 #define SCREEN_HEIGHT  500
-#define ARENA_WIDTH 200
+#define ARENA_WIDTH 300
 #define ARENA_HEIGHT 200
 
 struct Vector {
@@ -11,9 +11,15 @@ struct Vector {
   float y;
 };
 
+typedef struct Color {
+  int r;
+  int g;
+  int b;
+} Color;
+
 typedef struct BouncingObject {
   SDL_FRect rect;
-  int color;
+  Color color;
 } BouncingObject;
 
 

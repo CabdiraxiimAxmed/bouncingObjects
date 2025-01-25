@@ -16,9 +16,10 @@
 #define FPS 60
 #define BALL_COLOR 0xFF30FF30
 #define CIRCLE_COLOR 0xFF3030FF
+#define BACKGROUND_COLOR 0x2D3954
 
 void arena(SDL_Renderer *renderer, SDL_FRect *rect) {
-  setColor(renderer, CIRCLE_COLOR);
+  SDL_SetRenderDrawColor(renderer, 134, 103, 242, 255 );
   SDL_RenderRect(renderer, rect);
 }
 
@@ -45,7 +46,7 @@ int main() {
   struct Vector circlePos = {(float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2};
   BouncingObject bouncingObject = {
     { (float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2, 10, 10},
-    0xFF30FF30,
+    {161, 171, 201},
   };
 
   while(!quit) {
@@ -55,7 +56,7 @@ int main() {
         quit = true;
       }
     }
-    setColor(renderer, 0xFFFFFFFF );
+    SDL_SetRenderDrawColor(renderer, 45, 57, 84, 255 );
     SDL_RenderClear(renderer);
 
     SDL_FRect arenaRect = { (float)(SCREEN_WIDTH - ARENA_WIDTH) / 2, (float) (SCREEN_HEIGHT - ARENA_HEIGHT) / 2, ARENA_WIDTH, ARENA_HEIGHT};
