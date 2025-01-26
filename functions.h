@@ -17,14 +17,20 @@ typedef struct Color {
   int b;
 } Color;
 
+typedef struct Direction {
+  int dx;
+  int dy;
+} Direction;
+
 typedef struct BouncingObject {
   SDL_FRect rect;
   Color color;
+  Direction direction;
+  float speed;
 } BouncingObject;
 
-
 extern bool createRect(SDL_Renderer *renderer, BouncingObject bouncingObject);
-extern void update(SDL_FRect *rect, SDL_FRect arenaRect);
+extern void update(SDL_FRect *rect, Direction *direction, int speed, SDL_FRect arenaRect, BouncingObject (*bouncingObjects)[], int *used, int size);
 extern void setColor(SDL_Renderer *renderer, int color);
 extern bool renderCircle(SDL_Renderer *renderer, struct Vector pos, int radius, int color);
 

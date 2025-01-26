@@ -3,9 +3,9 @@
 #include <SDL3/SDL_stdinc.h>
 #include "../functions.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 #define FPS 60
-#define SPEED 1.0
 #define DELTA 1.0
 int dx = 1;
 int dy = 1;
@@ -14,17 +14,61 @@ double square(double numb) {
   return numb * numb;
 }
 
+Color getColor() {
+  Color colors[10] = {
+    {208, 31, 31},
+    {60, 164, 209},
+    {80, 209, 60},
+    {255, 0, 255},
+    {0, 255, 255},
+    {255, 255, 255},
+    {10, 10, 10},
+    {128, 128, 0},
+    {0, 0, 128},
+    {0, 102, 204},
+  };
+  return colors[rand()%10 -1];
+}
 
-void update(SDL_FRect *rect, SDL_FRect arenaRect) {
-  int nx = rect -> x + dx * SPEED * DELTA;
-  int ny = rect -> y + dy * SPEED * DELTA;
+void update(SDL_FRect *rect, Direction *direction, int speed, SDL_FRect arenaRect, BouncingObject (*bouncingObjects)[], int *used, int size) {
+  int nx = rect -> x + direction->dx * speed * DELTA;
+  int ny = rect -> y + direction->dy * speed * DELTA;
+  if(*used > size)
+    printf("We got an error");
+
   if(nx + rect->w > arenaRect.x + arenaRect.w || nx < arenaRect.x) {
-    dx *= -1;
-  }
-  if(ny + rect->h > arenaRect.y + arenaRect.h || ny < arenaRect.y) {
-    dy *= -1;
+    if(size > *used) {
+      int x = rect->x;
+      int y = rect->y;
+      BouncingObject bouncingObject = {
+        { x, y, 10, 10},
+        getColor(),
+        { direction->dx * -1, direction->dy* -1},
+        1,
+      };
+      (*bouncingObjects)[*used] = bouncingObject;
+      *used = *used + 1;
+      printf("used: %d\n", *used);
+    }
+    direction->dx *= -1;
   }
 
+  if(ny + rect->h > arenaRect.y + arenaRect.h || ny < arenaRect.y) {
+    if(size > *used) {
+      int x = rect->x;
+      int y = rect->y;
+      BouncingObject bouncingObject = {
+        { x, y, 10, 10},
+        getColor(),
+        { direction->dx * -1, direction->dy* -1},
+        1,
+      };
+      (*bouncingObjects)[*used] = bouncingObject ;
+      *used = *used + 1;
+      printf("used: %d\n", *used);
+    }
+    direction->dy *= -1;
+  }
   rect->x = nx;
   rect->y = ny;
 }
