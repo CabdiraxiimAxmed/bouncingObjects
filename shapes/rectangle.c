@@ -30,6 +30,20 @@ Color getColor() {
   return colors[rand()%10 -1];
 }
 
+void createNewBouncingObject(SDL_FRect *rect, Direction *direction, int speed, SDL_FRect arenaRect, BouncingObject (*bouncingObjects)[], int *used, int size) {
+  int x = rect->x;
+  int y = rect->y;
+  BouncingObject bouncingObject = {
+    { x, y, 10, 10},
+    getColor(),
+    { direction->dx * -1, direction->dy* -1},
+    1,
+  };
+  (*bouncingObjects)[*used] = bouncingObject;
+  *used = *used + 1;
+  printf("used: %d\n", *used);
+}
+
 void update(SDL_FRect *rect, Direction *direction, int speed, SDL_FRect arenaRect, BouncingObject (*bouncingObjects)[], int *used, int size) {
   int nx = rect -> x + direction->dx * speed * DELTA;
   int ny = rect -> y + direction->dy * speed * DELTA;
@@ -37,36 +51,14 @@ void update(SDL_FRect *rect, Direction *direction, int speed, SDL_FRect arenaRec
     printf("We got an error");
 
   if(nx + rect->w > arenaRect.x + arenaRect.w || nx < arenaRect.x) {
-    if(size > *used) {
-      int x = rect->x;
-      int y = rect->y;
-      BouncingObject bouncingObject = {
-        { x, y, 10, 10},
-        getColor(),
-        { direction->dx * -1, direction->dy* -1},
-        1,
-      };
-      (*bouncingObjects)[*used] = bouncingObject;
-      *used = *used + 1;
-      printf("used: %d\n", *used);
-    }
+    if(size > *used)
+      createNewBouncingObject(rect, direction, speed, arenaRect, bouncingObjects, used, size);
     direction->dx *= -1;
   }
 
   if(ny + rect->h > arenaRect.y + arenaRect.h || ny < arenaRect.y) {
-    if(size > *used) {
-      int x = rect->x;
-      int y = rect->y;
-      BouncingObject bouncingObject = {
-        { x, y, 10, 10},
-        getColor(),
-        { direction->dx * -1, direction->dy* -1},
-        1,
-      };
-      (*bouncingObjects)[*used] = bouncingObject ;
-      *used = *used + 1;
-      printf("used: %d\n", *used);
-    }
+    if(size > *used)
+      createNewBouncingObject(rect, direction, speed, arenaRect, bouncingObjects, used, size);
     direction->dy *= -1;
   }
   rect->x = nx;
