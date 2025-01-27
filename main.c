@@ -50,7 +50,7 @@ int main() {
 
   struct Vector circlePos = {(float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2};
 
-  int size = 100;
+  int size = 1000;
   BouncingObject bouncingObjects[size];
   BouncingObject bouncingObject = {
     { (float)SCREEN_WIDTH / 2, (float)SCREEN_HEIGHT / 2, 10, 10},
